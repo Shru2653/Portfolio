@@ -13,16 +13,19 @@ document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', 
     navMenu.classList.remove('active');
 }));
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+// Smooth scrolling for navigation links only (avoid placeholder links)
+document.querySelectorAll('.nav-link').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+        const href = this.getAttribute('href');
+        if (href && href !== '#') {
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
     });
 });
@@ -66,22 +69,7 @@ document.querySelectorAll('section').forEach(section => {
 document.querySelector('.hero').style.opacity = '1';
 document.querySelector('.hero').style.transform = 'translateY(0)';
 
-// Handle profile image loading
-document.addEventListener('DOMContentLoaded', () => {
-    const profileImg = document.querySelector('.profile-img');
-    
-    // Check if image exists, if not show placeholder
-    profileImg.onerror = function() {
-        this.style.display = 'flex';
-        this.style.alignItems = 'center';
-        this.style.justifyContent = 'center';
-        this.style.fontSize = '18px';
-        this.style.background = 'rgba(255,255,255,0.2)';
-        this.innerHTML = 'Profile Photo<br>Placeholder';
-        this.style.textAlign = 'center';
-        this.style.lineHeight = '1.4';
-    };
-});
+// Profile image is now handled with inline onerror attribute
 
 // Add CSS for hamburger animation
 const style = document.createElement('style');
